@@ -1,0 +1,5 @@
+Model Information:
+* title: Ultimate Monsters Pack
+* source: https://sketchfab.com/3d-models/ultimate-monsters-pack-fd72e114d119488da71fe3a16f216c4f
+* author: quaternius (https://sketchfab.com/quaternius)
+* license: CC-BY-4.0 (https://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Car model previews</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f3ee;color:#1d1c19;font:14px/1.4 system-ui,sans-serif;padding:32px}header{max-width:1100px;margin:0 auto 22px}h1{font-size:28px;margin:0 0 4px}p{margin:0;color:#68655e}.grid{max-width:1100px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px #0001}.view{height:290px;background:linear-gradient(#e8edf0,#f7f5ef);position:relative}.view canvas{display:block;width:100%;height:100%}.label{padding:14px 16px}.label strong{display:block;font-size:16px}.label span{color:#777}</style>
+</head><body>
+<header><h1>Vehicles in this project</h1><p>Three-dimensional previews • drag to rotate • scroll to zoom • press C while driving to switch vehicles</p></header>
+<main class="grid">
+<article class="card"><div class="view" data-model="custom/simple-car/scene.gltf" data-game-fit="true"></div><div class="label"><strong>Simple Low-poly Car</strong><span>Land • starts selected</span></div></article>
+<article class="card"><div class="view" data-model="custom/evo-rally/scene.gltf" data-game-fit="true"></div><div class="label"><strong>Evo Rally Car</strong><span>Land</span></div></article>
+<article class="card"><div class="view" data-model="oldSchool.glb"></div><div class="label"><strong>Old school</strong><span>Land</span></div></article>
+<article class="card"><div class="view" data-model="rb16b/source/rb16.glb" data-game-fit="true"></div><div class="label"><strong>Red Bull RB16B • 2021</strong><span>Land</span></div></article>
+<article class="card"><div class="view" data-model="custom/cyberpunk-hovercar-pbr.glb" data-game-fit="true"></div><div class="label"><strong>Cyberpunk Hovercar</strong><span>Land and water</span></div></article>
+<article class="card"><div class="view" data-model="custom/datsun-240k.glb" data-game-fit="true"></div><div class="label"><strong>1972 Datsun 240K GT</strong><span>Land</span></div></article>
+<article class="card"><div class="view" data-model="custom/porsche-911/scene.gltf" data-game-fit="true"></div><div class="label"><strong>1975 Porsche 911 Turbo</strong><span>Land</span></div></article>
+<article class="card"><div class="view" data-model="custom/rowing-boat.glb" data-game-fit="true"></div><div class="label"><strong>Rowing Boat</strong><span>Water only</span></div></article>
+<article class="card"><div class="view" data-model="custom/boat.glb" data-game-fit="true"></div><div class="label"><strong>Motor Boat / Yacht</strong><span>Water only</span></div></article>
+<article class="card"><div class="view" data-model="custom/boat-lowpoly.glb" data-game-fit="true"></div><div class="label"><strong>Low-poly Boat</strong><span>Water only</span></div></article>
+</main>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+for(const el of document.querySelectorAll('.view')){
+ const scene=new THREE.Scene(); scene.background=new THREE.Color('#e9edf0');
+ const camera=new THREE.PerspectiveCamera(34,1,.1,100); camera.position.set(4,3.1,5.4);
+ const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false}); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.outputColorSpace=THREE.SRGBColorSpace; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.2; el.appendChild(renderer.domElement);
+ scene.add(new THREE.HemisphereLight(0xffffff,0x828079,2.2)); const light=new THREE.DirectionalLight(0xffffff,3.2);light.position.set(4,8,6);scene.add(light);
+ const floor=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshStandardMaterial({color:0xd9d6ce,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=-.02;scene.add(floor);
+ const controls=new OrbitControls(camera,renderer.domElement);controls.target.set(0,.45,0);controls.enableDamping=true;
+ const draco=new DRACOLoader();draco.setDecoderPath('/draco/gltf/');const loader=new GLTFLoader();loader.setDRACOLoader(draco);
+ loader.load('/vehicle/'+el.dataset.model,g=>{g.scene.getObjectByName('Ground_2')?.removeFromParent();if(el.dataset.gameFit){g.scene.rotation.y=Math.PI/2;if(el.dataset.model.includes('rb16b'))g.scene.traverse(o=>{if(o.isMesh){const basic=m=>new THREE.MeshBasicMaterial({map:m.map||null,color:m.color||0xffffff,transparent:m.transparent||false,opacity:m.opacity??1,side:m.side,alphaTest:m.alphaTest||0});o.material=Array.isArray(o.material)?o.material.map(basic):basic(o.material)}})}scene.add(g.scene);const b=new THREE.Box3().setFromObject(g.scene);const s=b.getSize(new THREE.Vector3());const c=b.getCenter(new THREE.Vector3());g.scene.position.sub(c);g.scene.position.y+=s.y/2;const max=Math.max(s.x,s.y,s.z);camera.position.set(max*1.2,max*.82,max*1.5);camera.near=max/100;camera.far=max*20;camera.updateProjectionMatrix();controls.target.set(0,s.y*.34,0);controls.update()},undefined,e=>console.error(e));
+ const resize=()=>{const w=el.clientWidth,h=el.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(el);resize();
+ (function animate(){requestAnimationFrame(animate);controls.update();renderer.render(scene,camera)})();
+}
+</script></body></html>

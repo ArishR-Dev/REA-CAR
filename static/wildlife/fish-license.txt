@@ -1,0 +1,5 @@
+Model Information:
+* title: Fish - Low Poly - Rigged - Animated
+* source: https://sketchfab.com/3d-models/fish-low-poly-rigged-animated-77b7c7c352c94ab08081ba221858c9c2
+* author: kharalos (https://sketchfab.com/kharalos)
+* license: CC-BY-4.0 (https://creativecommons.org/licenses/by/4.0/)

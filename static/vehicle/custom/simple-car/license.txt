@@ -1,0 +1,11 @@
+Model Information:
+* title:	Simple Car Low Poly - Rigged
+* source:	https://sketchfab.com/3d-models/simple-car-low-poly-rigged-9ea848ba1aa64017bc5867afcbb51b6b
+* author:	AFCM (https://sketchfab.com/afcm.contact)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Simple Car Low Poly - Rigged" (https://sketchfab.com/3d-models/simple-car-low-poly-rigged-9ea848ba1aa64017bc5867afcbb51b6b) by AFCM (https://sketchfab.com/afcm.contact) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
